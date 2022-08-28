@@ -18,10 +18,19 @@ namespace Tennis
 			if (CurrentlyDrawing(player1, player2))
 				return GetEqualScores(player1.Score);
 
-			else if (GameIsInLastPointOrEnded(player1, player2))
-				return GetEndingResults(player1, player2);
+			else if (GameIsInLastPoint(player1, player2))
+				return GetAdvantageResult(player1, player2);
 
 			return GetCurrentScores(player1, player2);
+		}
+
+		public bool IsGameCompleted(Player player1, Player player2)
+		{
+			if (CurrentlyDrawing(player1, player2))
+				return false;
+			if (GameIsInLastPoint(player1, player2))
+				return !PlayerAdvantageBy1Point(player1, player2);
+			return false;
 		}
 
 		private static string GetEqualScores(int score)
@@ -31,14 +40,10 @@ namespace Tennis
 			return $"{_formattedScores[score]}-All";
 		}
 
-		private static string GetEndingResults(Player player1, Player player2)
+		private static string GetAdvantageResult(Player player1, Player player2)
 		{
 			var highPlayer = player1.Score > player2.Score ? player1 : player2;
-
-			if (PlayerAdvantageBy1Point(player1, player2))
-				return $"Advantage {highPlayer.Name}";
-			else
-				return $"Win for {highPlayer.Name}";
+			return $"Advantage {highPlayer.Name}";
 		}
 
 		private static string GetCurrentScores(Player player1, Player player2)
@@ -52,7 +57,7 @@ namespace Tennis
 			return player1.Score == player2.Score;
 		}
 
-		private static bool GameIsInLastPointOrEnded(Player player1, Player player2)
+		private static bool GameIsInLastPoint(Player player1, Player player2)
 		{
 			return Math.Max(player1.Score, player2.Score) >= 4;
 		}
@@ -61,7 +66,6 @@ namespace Tennis
 		{
 			return Math.Abs(player1.Score - player2.Score) == 1;
 		}
-
 	}
 }
 
