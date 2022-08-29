@@ -28,9 +28,7 @@ namespace Tennis
 			winner.Score++;
 
 			if(_scorer.IsGameCompleted(_player1, _player2))
-			{
 				PlayerWins(winner);
-			}
 		}
 
 		public int GetPlayerWins(string playerName)

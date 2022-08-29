@@ -16,7 +16,7 @@ namespace Tennis
 		public string GetScore(Player player1, Player player2)
 		{
 			if (CurrentlyDrawing(player1, player2))
-				return GetEqualScores(player1.Score);
+				return GetDrawingScores(player1.Score);
 
 			else if (GameIsInLastPoint(player1, player2))
 				return GetAdvantageResult(player1, player2);
@@ -26,14 +26,12 @@ namespace Tennis
 
 		public bool IsGameCompleted(Player player1, Player player2)
 		{
-			if (CurrentlyDrawing(player1, player2))
-				return false;
-			if (GameIsInLastPoint(player1, player2))
+			if (!CurrentlyDrawing(player1, player2) && GameIsInLastPoint(player1, player2))
 				return !PlayerAdvantageBy1Point(player1, player2);
 			return false;
 		}
 
-		private static string GetEqualScores(int score)
+		private static string GetDrawingScores(int score)
 		{
 			if (score >= 3)
 				return "Deuce";
